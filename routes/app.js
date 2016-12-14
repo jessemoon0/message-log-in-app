@@ -11,6 +11,8 @@ router.get('/', function (req, res, next) {
 
 router.get('/message/:msg', function (req, res, next) {
   //Variable is an object which value is hello
+  //This line is to show how the Template is connected through the
+  //Hello Variable
   //res.render('node', {message: 'Hello!'});
 
   //We use req.params to grab the param POST is sending
