@@ -11,7 +11,7 @@ var appRoutes = require('./routes/app');
 
 var app = express();
 
-//Connect to mongoose
+//Connect to mongoose, create new DB
 mongoose.connect('localhost:27017/node-angular');
 
 // view engine setup
