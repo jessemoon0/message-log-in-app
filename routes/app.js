@@ -3,13 +3,15 @@ var router = express.Router();
 //Import User Model
 var User = require('../models/user');
 
-//localhost:3000/
+//EXPRESS ROUTES BASIC USAGE:
+
+// localhost:3000/
 // router.get('/', function (req, res, next) {
 //   //Render a view on the response object
 //     res.render('index');
 //   //If we put next here, it would send us to the 404 code on app.js
 // });
-
+//
 // router.get('/message/:msg', function (req, res, next) {
 //   //Variable is an object which value is hello
 //   //This line is to show how the Template is connected through the
@@ -21,7 +23,7 @@ var User = require('../models/user');
 //   res.render('node', {message: req.params.msg});
 //
 // });
-
+//
 // //Get the message from a form
 // router.post('/message', function (req, res, next) {
 //   //Extract the message:
@@ -33,33 +35,46 @@ var User = require('../models/user');
 //   res.redirect('/message/' + message);
 // });
 
-router.get('/', function (req, res, next) {
-    //First match in DB, empty object gets me the first thing it finds.
-    //This is an ASYNC Task, so it cant be stored in a Variable
-    //If you execute code outside of the callback,
-    //YOU WONT HAVE access since the data fetched is inside
-    User.findOne({}, function(err, doc){
-      if(err){
-        return res.send('Error!');
-      }
-      //Fetch only email property of the callback object
-      res.render('node', {email: doc.email});
-    });
-});
 
-router.post('/', function (req, res, next) {
-  var email = req.body.email;
-  //Instantiate user model.
-  var user = new User({
-    firstName: 'Jessie',
-    lastName: 'Valladares',
-    password: 'super-secret',
-    email: email
-  });
-  //save to DB. Creates Users collection
-  //TEST: use node-angular. db.users.find() in terminal.
-  user.save();
-  res.redirect('/');
+//MONGOOSE DB PART:
+
+
+// router.get('/', function (req, res, next) {
+//     //First match in DB, empty object gets me the
+//     //first thing it finds.
+//     //This is an ASYNC Task, so it cant be stored in a Variable
+//     //If you execute code outside of the callback,
+//     //YOU WONT HAVE access since the data fetched is inside
+//     User.findOne({}, function(err, doc){
+//       if(err){
+//         return res.send('Error!');
+//       }
+//       //Fetch only email property of the callback object
+//       res.render('node', {email: doc.email});
+//     });
+// });
+
+// router.post('/', function (req, res, next) {
+//   var email = req.body.email;
+//   //Instantiate user model.
+//   var user = new User({
+//     firstName: 'Jessie',
+//     lastName: 'Valladares',
+//     password: 'super-secret',
+//     email: email
+//   });
+//   //save to DB. Creates Users collection
+//   //TEST: use node-angular. db.users.find() in terminal.
+//   user.save();
+//   res.redirect('/');
+// });
+
+
+//ANGULAR 2 PART
+
+
+router.get('/', function (req, res, next) {
+  res.render('index');
 });
 
 module.exports = router;
