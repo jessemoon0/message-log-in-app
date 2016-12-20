@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var appRoutes = require('./routes/app');
+var messageRoutes = require('./routes/messages');
 
 var app = express();
 
@@ -47,8 +48,12 @@ app.use(function (req, res, next) {
     next();
 });
 
+//The ORDER OF ROUTES is important, because if we put the root route first,
+//the other routes will never get to their respective app.use.
+app.use('/message', messageRoutes)
 //Any requests, the appRoutes handles it (which is imported from /routes/app.js)
 app.use('/', appRoutes);
+
 
 //If a bad URL is typed by user or the URL is not found in routes:
 // catch 404 and forward to error handler

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 //Import User Model
-var User = require('../models/user');
+// var User = require('../models/user');
 
 //EXPRESS ROUTES BASIC USAGE:
 

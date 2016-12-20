@@ -11,7 +11,6 @@ import { MessageListComponent } from "./messages/message-list.component";
 import { MessageInputComponent } from "./messages/message-input.component";
 import { MessagesComponent } from "./messages/messages.component";
 
-
 //Auth Components
 import { AuthenticationComponent } from "./auth/authentication.component";
 import { LogoutComponent } from "./auth/logout.component";
@@ -19,6 +18,9 @@ import { SigninComponent } from "./auth/signin.component";
 import { SignupComponent } from "./auth/signup.component";
 //Our routes import
 import { routing } from "./app.routing";
+
+//Http Module
+import { HttpModule } from '@angular/http';
 
 @NgModule({
     declarations: [
@@ -34,7 +36,11 @@ import { routing } from "./app.routing";
         SignupComponent
     ],
     //Check routing import
-    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule],
+    imports: [BrowserModule,
+              FormsModule,
+              routing,
+              ReactiveFormsModule,
+              HttpModule],
     bootstrap: [AppComponent]
 })
 export class AppModule {

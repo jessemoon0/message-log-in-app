@@ -9,6 +9,9 @@
   <button class="btn btn-primary" type="submit"
   (click)="onSave(inputForComponent.value)">Save</button> -->
 
+  <!-- If messageLoadedOnEdit is defined, puts its content -->
+  <!-- Remember ngModel is for Temp driven forms to detect the input and the
+  name attribute, this allow us to target the current editing form -->
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
       <label for="content">Content</label>
@@ -16,9 +19,11 @@
       id="content"
       class="form-control"
       name="content"
-      ngModel
+      [ngModel]="messageLoadedOnEdit?.content"
       required>
     </div>
+    <!-- The clear button with Event Binding -->
+    <button type="button" class="btn btn-danger" (click)="onClear(f)">Clear</button>
     <button class="btn btn-primary" type="submit">Save</button>
   </form>
   <hr>

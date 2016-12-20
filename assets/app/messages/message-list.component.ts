@@ -7,13 +7,24 @@ import { Message } from './message.model';
 @Component({
   selector: 'app-message-list',
   template: `
-    <div class="col-md-8 col-md-offset-2">
-    <app-message
+    <!-- Code whithout HTTP: -->
+    <!-- <div class="col-md-8 col-md-offset-2"> -->
+    <!-- (editClicked) makes the message.content to change according to what
+    happens in the event, that in this case is a function in MessageComponent-->
+  <!--  <app-message
       [inputMessage]="message"
       (editClicked)="message.content = $event"
       *ngFor="let message of messages">
     </app-message>
+    </div> -->
+
+    <div class="col-md-8 col-md-offset-2">
+    <app-message
+        [inputMessage]="message"
+        *ngFor="let message of messages">
+    </app-message>
     </div>
+
   `
   //With this, Ang2 can do the operation of injecting the service
   //in the constructor. WE CAN ONLY USE IN THIS COMPONENT.
@@ -37,6 +48,13 @@ export class MessageListComponent implements OnInit {
   constructor(private messageService: MessageService){}
 
   ngOnInit(){
-    this.messages = this.messageService.getMessages();
+    //Without HTTP
+    // this.messages = this.messageService.getMessages();
+
+    this.messageService.getMessages()
+    .subscribe(
+      (messages: Message[]) => {
+        this.messages = messages;
+      });
   }
 }
