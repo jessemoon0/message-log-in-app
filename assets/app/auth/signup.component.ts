@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+//Service
+import { AuthService } from './auth.service'
+//The model
+import { User } from './user.model';
 
 @Component({
   selector: 'app-signup',
@@ -7,6 +11,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class SignupComponent implements OnInit{
   myForm: FormGroup;
+
+  constructor(private authService: AuthService) {}
 
   //When the component is created, the form is created as well
   ngOnInit(){
@@ -28,7 +34,22 @@ export class SignupComponent implements OnInit{
   }
 
   onSubmit(){
-    console.log(this.myForm);
+    //For testing only
+    // console.log(this.myForm);
+
+    //We set up the fields on the ngOnInit method
+    const user = new User(
+      this.myForm.value.email,
+      this.myForm.value.password,
+      this.myForm.value.firstName,
+      this.myForm.value.lastName
+    );
+    //Subscribe to Observable
+    this.authService.signup(user)
+    .subscribe(
+      data => console.log(data),
+      error => console.error(error)
+    );
     this.myForm.reset();
   }
 }

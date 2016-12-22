@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+//Service
+import { AuthService } from './auth.service'
+//Angular 2 Router to leave component in any line.
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logout',
@@ -9,7 +13,9 @@ import { Component } from '@angular/core';
   `
 })
 export class LogoutComponent{
+  constructor(private authService: AuthService, private router: Router){}
   onLogout(){
-
+    this.authService.logout();
+    this.router.navigate(['/auth', 'signin']);
   }
 }

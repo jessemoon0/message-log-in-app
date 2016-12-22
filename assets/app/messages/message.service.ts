@@ -33,15 +33,22 @@ export class MessageService {
     //We need to set the headers so is in JSON format, we pass it in the 3rd arg
     //This is to avoid 500 error of server when we cant read the response.
     const headers = new Headers({'Content-Type':'application/json'});
+
+    //AUTH. If token exists, add the query parameter. If terniary
+    const token = localStorage.getItem('token')
+    ? '?token=' + localStorage.getItem('token')
+    : '';
+
     //We create the Observable to be subscibed in the component.
-    return this.http.post('http://localhost:3000/message', body, {headers: headers})
+    return this.http.post('http://localhost:3000/message' + token, body, {headers: headers})
     //The server full response is stored in (response: Response).
     //This .map() is taking away headers and status codes, extracting only the
     //response and formatting it to JSON
     //This response is more specific now, to store the ID field to update it
     .map((response: Response) => {
       const result = response.json();
-      const newMessage = new Message(result.obj.content, 'Dummy', result.obj._id, null);
+      //As we get the full user object, we can get his associated user properties
+      const newMessage = new Message(result.obj.content, result.obj.user.firstName, result.obj._id,result.obj.user._id);
       this.messages.push(newMessage);
       return newMessage;
     })
@@ -67,7 +74,7 @@ export class MessageService {
       for(let message of messages){
         //Push to the array a new message extracting the content, the Username
         //and in the future,the ID and User ID. ORDER of Params is important.
-        transformedMessages.push(new Message(message.content, 'Dummy', message._id, null));
+        transformedMessages.push(new Message(message.content, message.user.firstName, message._id, message.user._id));
       }
       //Keep in Sync the transformedMessages with our messages in the service
       //Important when we access the messages from other methods (must be updated)
@@ -88,9 +95,15 @@ export class MessageService {
     //Check addMessage for tutorial on this.
     const body = JSON.stringify(message);
     const headers = new Headers({'Content-Type':'application/json'});
+
+    //AUTH. If token exists, add the query parameter. If terniary
+    const token = localStorage.getItem('token')
+    ? '?token=' + localStorage.getItem('token')
+    : '';
+
     //Method is patch, we pass the ID to the URL. DONT FORGET THE '/' at the end
     //of the URL.
-    return this.http.patch('http://localhost:3000/message/' + message.messageId, body, {headers: headers})
+    return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
     .map((response: Response) => response.json())
     .catch((error: Response) => Observable.throw(error.json()));
   }
@@ -99,8 +112,13 @@ export class MessageService {
   deleteMessage(message: Message){
     this.messages.splice(this.messages.indexOf(message), 1);
 
+    //AUTH. If token exists, add the query parameter. If terniary
+    const token = localStorage.getItem('token')
+    ? '?token=' + localStorage.getItem('token')
+    : '';
+
     //Copy code from Update method
-    return this.http.delete('http://localhost:3000/message/' + message.messageId)
+    return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
     .map((response: Response) => response.json())
     .catch((error: Response) => Observable.throw(error.json()));
   }

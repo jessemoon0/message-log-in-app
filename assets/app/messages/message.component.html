@@ -10,7 +10,7 @@
     <div class="author">
       {{ message.username }}
     </div>
-    <div class="config">
+    <div class="config" *ngIf="belongsToUser()">
       <!-- Listening for click events, executes onEdit on our class. -->
       <a (click)="onEdit()">Edit</a>
       <a (click)="onDelete()">Delete</a>

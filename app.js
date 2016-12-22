@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 
 var appRoutes = require('./routes/app');
 var messageRoutes = require('./routes/messages');
+var userRoutes = require('./routes/user');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use(function (req, res, next) {
 //The ORDER OF ROUTES is important, because if we put the root route first,
 //the other routes will never get to their respective app.use.
 app.use('/message', messageRoutes)
+app.use('/user', userRoutes)
 //Any requests, the appRoutes handles it (which is imported from /routes/app.js)
 app.use('/', appRoutes);
 

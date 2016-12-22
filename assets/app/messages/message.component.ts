@@ -51,6 +51,12 @@ export class MessageComponent{
       .subscribe(
         result => console.log(result)
       );
+  }
 
+  belongsToUser(){
+    //Check if a component belongs to a user to show/hide HTML elements
+    //Security Breach: Do this check on backend, if not, messages can be
+    //edited or deleted with injecting JS on the frontend.
+    return localStorage.getItem('userId') == this.message.userId;
   }
 }
