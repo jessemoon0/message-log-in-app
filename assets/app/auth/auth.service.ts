@@ -10,18 +10,24 @@ import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
 
+import { ErrorService } from '../errors/error.service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: Http){}
+  constructor(private http: Http, private errorService: ErrorService){}
 
   signup(user: User){
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type':'application/json'});
     return this.http.post('http://localhost:3000/user', body, {headers: headers})
     .map((response: Response) => response.json())
-    .catch((error: Response) => Observable.throw(error.json()));;
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 
   signin(user: User){
@@ -30,7 +36,12 @@ export class AuthService {
     //Added /signin
     return this.http.post('http://localhost:3000/user/signin', body, {headers: headers})
     .map((response: Response) => response.json())
-    .catch((error: Response) => Observable.throw(error.json()));;
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 
   logout(){

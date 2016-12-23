@@ -16,12 +16,17 @@ import { AuthenticationComponent } from "./auth/authentication.component";
 import { LogoutComponent } from "./auth/logout.component";
 import { SigninComponent } from "./auth/signin.component";
 import { SignupComponent } from "./auth/signup.component";
+
+//Services app wide
 import { AuthService } from './auth/auth.service';
+import { ErrorService } from './errors/error.service';
 //Our routes import
 import { routing } from "./app.routing";
 
 //Http Module
 import { HttpModule } from '@angular/http';
+//Error Component
+import { ErrorComponent } from "./errors/error.component";
 
 @NgModule({
     declarations: [
@@ -34,7 +39,8 @@ import { HttpModule } from '@angular/http';
         HeaderComponent,
         LogoutComponent,
         SigninComponent,
-        SignupComponent
+        SignupComponent,
+        ErrorComponent
     ],
     //Check routing import
     imports: [BrowserModule,
@@ -43,7 +49,7 @@ import { HttpModule } from '@angular/http';
               ReactiveFormsModule,
               HttpModule
     ],
-    providers: [AuthService],
+    providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

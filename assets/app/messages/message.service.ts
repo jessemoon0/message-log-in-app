@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import { Observable } from "rxjs";
 
 import { Message } from './message.model';
+import { ErrorService } from '../errors/error.service';
 
 @Injectable()
 //Central messages array to manage all my messages
@@ -16,7 +17,7 @@ export class MessageService {
   messageIsEdit = new EventEmitter<Message>();
 
   //Set the HTTP Injector
-  constructor(private http: Http){}
+  constructor(private http: Http, private errorService: ErrorService){}
 
   //Add a new message to this central array
   addMessage(message: Message){
@@ -54,7 +55,12 @@ export class MessageService {
     })
     //Error Handling:
     //Use Observable object to extract exact error and show it in JSON format
-    .catch((error: Response) => Observable.throw(error.json()));
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 
   //Return messages array so we have access to it
@@ -82,7 +88,12 @@ export class MessageService {
       //.map() needs a return value to create the Observable.
       return transformedMessages;
     })
-    .catch((error: Response) => Observable.throw(error.json()));
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 
   //The service acts like a middle man between MessageComponent
@@ -105,7 +116,12 @@ export class MessageService {
     //of the URL.
     return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
     .map((response: Response) => response.json())
-    .catch((error: Response) => Observable.throw(error.json()));
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 
   //Start at the index of the message im passing and remove just that message (1)
@@ -120,6 +136,11 @@ export class MessageService {
     //Copy code from Update method
     return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
     .map((response: Response) => response.json())
-    .catch((error: Response) => Observable.throw(error.json()));
+    .catch((error: Response) => {
+      //So you get an specific error
+      this.errorService.handleError(error.json());
+      //Even with the errorService, catch expect this observable.
+      return Observable.throw(error.json());
+    });
   }
 }
