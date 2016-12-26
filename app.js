@@ -14,7 +14,7 @@ var userRoutes = require('./routes/user');
 var app = express();
 
 //Connect to mongoose, create new DB
-mongoose.connect('localhost:27017/node-angular');
+mongoose.connect('jessie:avatar@ds145118.mlab.com:45118/udemy-message-app');
 
 // view engine setup
 //Initialize our views folder
